@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+:root {
+  --nav-bg: #182536;
+  --nav-border: rgba(255, 255, 255, 0.15);
+  --nav-text: #ffffff;
+  --nav-text-muted: rgba(255, 255, 255, 0.7);
+  --nav-text-subtle: rgba(255, 255, 255, 0.6);
+  --nav-hover: rgba(255, 255, 255, 0.1);
+  --online: #34d399;
+
+  --nav-height: 2.5rem;
+  --nav-button-size: 2.25rem;
+  --nav-radius: 9999px;
+
+  --nav-px: 1.25rem;
+  --nav-px-md: 1.5rem;
+  --nav-px-lg: 2rem;
+
+  --nav-gap: 0.5rem;
+  --nav-blur: 24px;
+  --nav-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+button{
+  cursor: pointer;
+}
+
+@layer components {
+  .glass-nav {
+    border: 1px solid var(--nav-border);
+    background: color-mix(in srgb, var(--nav-bg) 80%, transparent);
+    box-shadow: var(--nav-shadow);
+    backdrop-filter: blur(var(--nav-blur));
+    -webkit-backdrop-filter: blur(var(--nav-blur));
+  }
+}
