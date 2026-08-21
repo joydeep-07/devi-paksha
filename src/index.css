@@ -35,3 +35,13 @@ button{
     -webkit-backdrop-filter: blur(var(--nav-blur));
   }
 }
+
+@font-face {
+  font-family: "bengali";
+  src: url("./assets/font/bengali.ttf") format("truetype");
+  font-display: swap;
+}
+
+.font-bengali {
+  font-family: "bengali", sans-serif;
+}
