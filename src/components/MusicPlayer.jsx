@@ -92,9 +92,11 @@ const MusicPlayer = ({
               className="h-full w-full object-cover"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-[var(--nav-text-subtle)]">
-              <Music2 size={28} />
-            </div>
+            <img
+              src="https://i.pinimg.com/736x/7d/9f/b5/7d9fb5a1eadbd0572fdcda510db537f6.jpg"
+              alt={title}
+              className="h-full w-full object-cover"
+            />
           )}
         </div>
 

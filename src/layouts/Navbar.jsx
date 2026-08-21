@@ -17,7 +17,7 @@ const Navbar = () => {
           flex h-[var(--nav-height)] items-center
           rounded-[var(--nav-radius)]
           border border-[var(--nav-border)]
-          bg-[var(--nav-bg)]/80
+          
           px-5
           text-xs font-medium text-[var(--nav-text)]
           shadow-[var(--nav-shadow)]
@@ -42,7 +42,7 @@ const Navbar = () => {
           items-center
           rounded-[var(--nav-radius)]
           border border-[var(--nav-border)]
-          bg-[var(--nav-bg)]/80
+          
           px-8
           shadow-[var(--nav-shadow)]
           backdrop-blur-[var(--nav-blur)]
@@ -80,7 +80,7 @@ const Navbar = () => {
             gap-1
             rounded-[var(--nav-radius)]
             border border-[var(--nav-border)]
-            bg-[var(--nav-bg)]/80
+            
             px-2
             shadow-[var(--nav-shadow)]
             backdrop-blur-[var(--nav-blur)]
@@ -120,7 +120,7 @@ const Navbar = () => {
             gap-1
             rounded-[var(--nav-radius)]
             border border-[var(--nav-border)]
-            bg-[var(--nav-bg)]/80
+            
             px-2
             shadow-[var(--nav-shadow)]
             backdrop-blur-[var(--nav-blur)]
