@@ -186,28 +186,28 @@ const Home = () => {
     const hour = getISTHour();
 
     // 4 AM - 6 AM
-    if (hour >= 4 && hour < 6) {
-      return {
-        mobileImage: morningTall,
-        desktopImage: morning,
-      };
-    }
+    // if (hour >= 4 && hour < 6) {
+    //   return {
+    //     mobileImage: morningTall,
+    //     desktopImage: morning,
+    //   };
+    // }
 
     // 6 AM - 4 PM
-    if (hour >= 6 && hour < 16) {
-      return {
-        mobileImage: dayTall,
-        desktopImage: day,
-      };
-    }
+    // if (hour >= 6 && hour < 16) {
+    //   return {
+    //     mobileImage: dayTall,
+    //     desktopImage: day,
+    //   };
+    // }
 
     // 4 PM - 8 PM
-    if (hour >= 16 && hour < 20) {
-      return {
-        mobileImage: eveningTall,
-        desktopImage: evening,
-      };
-    }
+    // if (hour >= 16 && hour < 20) {
+    //   return {
+    //     mobileImage: eveningTall,
+    //     desktopImage: evening,
+    //   };
+    // }
 
     // 8 PM - 4 AM
     return {
