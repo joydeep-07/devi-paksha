@@ -26,12 +26,21 @@ const Home = () => {
         দুগ্গা এলো
       </h1>
 
-      <img
-        src="./images/night.png"
-        loading="lazy"
-        alt="dugga dugga"
-        className="h-full w-full object-cover object-left md:object-left lg:object-center"
-      />
+      <picture>
+        {/* Mobile */}
+        <source
+          media="(max-width: 767px)"
+          srcSet="./images/night_tall.png"
+        />
+
+        {/* Tablet + Desktop */}
+        <img
+          src="./images/night.png"
+          loading="lazy"
+          alt="dugga dugga"
+          className="h-full w-full object-cover object-left lg:object-center"
+        />
+      </picture>
 
       <MusicPlayer />
     </div>
