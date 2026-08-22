@@ -34,24 +34,18 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    if (isOpen && listRef.current) {
-      gsap.fromTo(
-        listRef.current.children,
-        {
-          opacity: 0,
-          y: 10,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.35,
-          stagger: 0.04,
-          ease: "power2.out",
-        },
-      );
-    }
-  }, [playlist, isOpen]);
+useEffect(() => {
+  if (isOpen && listRef.current) {
+    // Clear any running tweens to prevent stuttering
+    gsap.killTweensOf(listRef.current.children);
+
+    gsap.fromTo(
+      listRef.current.children,
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: "power2.out" }
+    );
+  }
+}, [isOpen]);
 
   const handleMouseMove = (e) => {
     if (!scrollListRef.current || !trackerRef.current || !popupRef.current) {
@@ -127,7 +121,7 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
           onMouseMove={handleMouseMove}
           className="
             absolute bottom-full left-1/2 z-[110]
-            mb-4 w-full max-w-[580px]
+            mb-4 w-[calc(100%-2rem)] max-w-[580px]
             -translate-x-1/2
             overflow-hidden
             rounded-2xl
@@ -167,20 +161,16 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
             </div>
 
             {/* Playlist Switch */}
-            <div className="flex rounded-xl border border-white/10 bg-white/5 p-1">
+            <div className="flex border-b border-white/20 p-1">
               <button
                 onClick={() => setPlaylist("pujo")}
                 className={`
                   flex flex-1 items-center
                   justify-center gap-2
-                  rounded-lg py-2
+                
                   text-[10px] font-semibold
                   tracking-wider transition
-                  ${
-                    playlist === "pujo"
-                      ? "bg-white/10 text-white"
-                      : "text-white/40 hover:text-white/70"
-                  }
+                  ${playlist === "pujo" ? " text-amber-300" : "text-white/40"}
                 `}
               >
                 <ListMusic size={13} />
@@ -195,11 +185,7 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
                   rounded-lg py-2
                   text-[10px] font-semibold
                   tracking-wider transition
-                  ${
-                    playlist === "mahalaya"
-                      ? "bg-white/10 text-white"
-                      : "text-white/40 hover:text-white/70"
-                  }
+                 ${playlist === "pujo" ? " text-white/40" : "text-amber-300"}
                 `}
               >
                 <Music2 size={13} />
@@ -248,7 +234,6 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
                               object-cover
                               transition-transform
                               duration-500
-                              group-hover:scale-110
                             "
                           />
                         ) : (
@@ -260,7 +245,7 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
                               object-cover
                               transition-transform
                               duration-500
-                              group-hover:scale-110
+                             
                             "
                           />
                         )}
