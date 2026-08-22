@@ -8,20 +8,7 @@ const Home = () => {
       <Navbar />
 
       <h1
-        className="
-          absolute
-          top-[100px]
-          left-1/2
-          z-10
-          -translate-x-1/2
-          whitespace-nowrap
-          text-6xl
-          font-light
-          text-amber-300
-          md:text-7xl
-          lg:text-[130px]
-          font-bengali
-        "
+        className=" absolute top-[100px] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-6xl font-light text-amber-300 md:text-7xl lg:text-[130px] font-bengali "
       >
         দুগ্গা এলো
       </h1>

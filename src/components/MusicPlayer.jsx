@@ -10,6 +10,7 @@ import {
   SkipBack,
   SkipForward,
 } from "lucide-react";
+import PlayList from "./PlayList";
 
 const MusicPlayer = ({
   cover,
@@ -22,25 +23,7 @@ const MusicPlayer = ({
     <div className="fixed bottom-4 left-1/2 z-[100] w-full max-w-[620px] -translate-x-1/2 px-3">
       {/* Top Pills */}
       <div className="mb-2 flex items-center justify-center gap-2">
-        <button
-          className="
-            flex h-9 items-center gap-2
-            rounded-[var(--nav-radius)]
-            border border-[var(--nav-border)]
-            bg-transparent
-            px-4
-            text-xs font-semibold tracking-wider
-            text-[var(--nav-text-muted)]
-            shadow-[var(--nav-shadow)]
-            backdrop-blur-2xl
-            transition
-            hover:bg-white/5
-          "
-        >
-          <ListMusic size={15} strokeWidth={1.8} />
-          <span>PUJA RADIO</span>
-          <ChevronDown size={14} />
-        </button>
+       <PlayList/>
 
         <button
           className="

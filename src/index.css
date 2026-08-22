@@ -45,3 +45,7 @@ button{
 .font-bengali {
   font-family: "bengali", sans-serif;
 }
+
+::-webkit-scrollbar{
+  display: none;
+}
