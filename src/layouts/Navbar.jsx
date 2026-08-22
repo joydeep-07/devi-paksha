@@ -1,7 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Coffee, Disc3, Music2, UsersRound } from "lucide-react";
 
+const TARGET_DATE = new Date("2026-10-16T00:00:00+05:30"); // October 16, 2026 IST
+
 const Navbar = () => {
+  const [currentTime, setCurrentTime] = useState({
+    timeStr: "-- : --",
+    period: "am",
+  });
+  const [daysRemaining, setDaysRemaining] = useState(0);
+
+  useEffect(() => {
+    const updateNavbarData = () => {
+      const now = new Date();
+
+      // 1. Format IST Time
+      const timeFormatter = new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
+
+      const formattedParts = timeFormatter.formatToParts(now);
+      const hours =
+        formattedParts.find((p) => p.type === "hour")?.value || "00";
+      const minutes =
+        formattedParts.find((p) => p.type === "minute")?.value || "00";
+      const dayPeriod =
+        formattedParts.find((p) => p.type === "dayPeriod")?.value || "am";
+
+      setCurrentTime({
+        timeStr: `${hours} : ${minutes}`,
+        period: dayPeriod.toLowerCase(),
+      });
+
+      // 2. Calculate remaining days to Oct 16, 2026
+      const diffInMs = TARGET_DATE.getTime() - now.getTime();
+      const diffInDays = Math.max(
+        0,
+        Math.ceil(diffInMs / (1000 * 60 * 60 * 24)),
+      );
+      setDaysRemaining(diffInDays);
+    };
+
+    updateNavbarData();
+    const interval = setInterval(updateNavbarData, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <nav
       className="
@@ -17,17 +65,18 @@ const Navbar = () => {
           flex h-[var(--nav-height)] items-center
           rounded-[var(--nav-radius)]
           border border-[var(--nav-border)]
-          
           px-5
           text-xs font-medium text-[var(--nav-text)]
-        shadow-sm
+          shadow-sm
           backdrop-blur-[var(--nav-blur)]
         "
       >
         <div className="flex items-center gap-3">
-          <span className="font-semibold">12 : 06</span>
+          <span className="font-semibold">{currentTime.timeStr}</span>
 
-          <span className="uppercase text-[var(--nav-text-muted)]">am</span>
+          <span className="uppercase text-[var(--nav-text-muted)]">
+            {currentTime.period}
+          </span>
 
           <span className="text-[var(--nav-text-subtle)]">IST</span>
         </div>
@@ -42,15 +91,14 @@ const Navbar = () => {
           items-center
           rounded-[var(--nav-radius)]
           border border-[var(--nav-border)]
-          
           px-8
-        shadow-sm
+          shadow-sm
           backdrop-blur-[var(--nav-blur)]
           md:flex
         "
       >
         <div className="flex items-center gap-4 text-xs font-medium text-[var(--nav-text)]">
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span
               className="
                 h-2.5 w-2.5 rounded-full
@@ -60,13 +108,13 @@ const Navbar = () => {
             />
 
             <span className="uppercase">274 online</span>
-          </div>
+          </div> */}
 
-          <span className="h-5 w-px bg-white/30" />
+          {/* <span className="h-5 w-px bg-white/30" /> */}
 
           <span className="uppercase text-[var(--nav-text-muted)]">
-            <span className="text-[var(--nav-text)]">55</span> days until Durga
-            Pujo
+            <span className="text-[var(--nav-text)]">{daysRemaining}</span> days
+            until Durga Pujo
           </span>
         </div>
       </div>
@@ -80,9 +128,8 @@ const Navbar = () => {
             gap-1
             rounded-[var(--nav-radius)]
             border border-[var(--nav-border)]
-            
             px-2
-          shadow-sm
+            shadow-sm
             backdrop-blur-[var(--nav-blur)]
           "
         >
@@ -120,9 +167,8 @@ const Navbar = () => {
             gap-1
             rounded-[var(--nav-radius)]
             border border-[var(--nav-border)]
-            
             px-2
-          shadow-sm
+            shadow-sm
             backdrop-blur-[var(--nav-blur)]
           "
         >
