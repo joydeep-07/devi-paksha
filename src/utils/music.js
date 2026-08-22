@@ -4,8 +4,9 @@ import duggaMa from "../assets/music/Dugga Ma - Arijit Singh.mp3";
 import ebarJeno from "../assets/music/Ebar Jeno Onno Rokom Pujo - Nakash Aziz.mp3";
 
 // Add your Mahalaya songs here
-// import mahalaya1 from "../assets/music/mahalaya-1.mp3";
-// import mahalaya2 from "../assets/music/mahalaya-2.mp3";
+import mahalaya1 from "../assets/music/mahalaya/Devi Chandi - Birendra Krishna Bhadra - Topic (128k).mp3";
+import mahalaya2 from "../assets/music/mahalaya/Mahalaya Original Chandi Path Birendra Krishna Bhadra Full Chandipath.mp3";
+import mahalaya3 from "../assets/music/mahalaya/Stotra 2 Narayani Namastute - Birendra Krishna Bhadra - Topic (128k).mp3";
 
 export const pujo = [
   {
@@ -31,14 +32,19 @@ export const pujo = [
 ];
 
 export const mahalaya = [
-  // {
-  //   title: "Mahalaya Track 01",
-  //   artist: "Artist Name",
-  //   src: mahalaya1,
-  // },
-  // {
-  //   title: "Mahalaya Track 02",
-  //   artist: "Artist Name",
-  //   src: mahalaya2,
-  // },
+  {
+    title: "Mahalaya",
+    artist: "Birendra Krishna Bhadra",
+    src: mahalaya1,
+  },
+  {
+    title: "Mahalaya Original Chandipath",
+    artist: "Birendra Krishna Bhadra",
+    src: mahalaya2,
+  },
+  {
+    title: "Stotra Narayani Namastute",
+    artist: "Birendra Krishna Bhadra",
+    src: mahalaya3,
+  },
 ];

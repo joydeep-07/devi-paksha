@@ -20,7 +20,7 @@ const Navbar = () => {
           
           px-5
           text-xs font-medium text-[var(--nav-text)]
-          shadow-[var(--nav-shadow)]
+        shadow-sm
           backdrop-blur-[var(--nav-blur)]
         "
       >
@@ -44,7 +44,7 @@ const Navbar = () => {
           border border-[var(--nav-border)]
           
           px-8
-          shadow-[var(--nav-shadow)]
+        shadow-sm
           backdrop-blur-[var(--nav-blur)]
           md:flex
         "
@@ -82,7 +82,7 @@ const Navbar = () => {
             border border-[var(--nav-border)]
             
             px-2
-            shadow-[var(--nav-shadow)]
+          shadow-sm
             backdrop-blur-[var(--nav-blur)]
           "
         >
@@ -122,7 +122,7 @@ const Navbar = () => {
             border border-[var(--nav-border)]
             
             px-2
-            shadow-[var(--nav-shadow)]
+          shadow-sm
             backdrop-blur-[var(--nav-blur)]
           "
         >
