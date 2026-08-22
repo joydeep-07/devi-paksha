@@ -60,7 +60,7 @@ const MusicPlayer = ({
       {/* Player Card */}
       <div
         className="
-          flex w-full items-center gap-3 rounded-sm md:rounded-lg
+          flex w-full items-center gap-3 rounded-full overflow-hidden md:rounded-lg
           border border-[var(--nav-border)]
           bg-black/40 backdrop-blur-2xl
           p-2.5 shadow-[var(--nav-shadow)]
@@ -70,10 +70,10 @@ const MusicPlayer = ({
         {/* Cover Art */}
         <div
           className="
-            h-14 w-14 shrink-0 overflow-hidden
-            rounded-lg border border-[var(--nav-border)]
+            h-16 w-16 shrink-0 overflow-hidden
+            rounded-full md:rounded-lg border border-[var(--nav-border)]
             bg-transparent shadow-md
-            sm:h-[72px] sm:w-[72px] sm:rounded-[18px]
+            sm:h-[72px] sm:w-[72px] 
           "
         >
           <img
