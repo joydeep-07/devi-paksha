@@ -11,6 +11,7 @@ import {
   SkipForward,
 } from "lucide-react";
 import PlayList from "./PlayList";
+import Dhak from "./Dhak";
 
 const MusicPlayer = ({
   cover,
@@ -25,24 +26,7 @@ const MusicPlayer = ({
       <div className="mb-2 flex items-center justify-center gap-2">
        <PlayList/>
 
-        <button
-          className="
-            flex h-9 items-center gap-2
-            rounded-[var(--nav-radius)]
-            border border-[var(--nav-border)]
-            bg-transparent
-            px-4
-            text-xs font-semibold tracking-wider
-            text-[var(--nav-text-muted)]
-            shadow-[var(--nav-shadow)]
-            backdrop-blur-2xl
-            transition
-            hover:bg-white/5
-          "
-        >
-          <Music2 size={15} strokeWidth={1.8} />
-          <span>DHAK</span>
-        </button>
+       <Dhak/>
       </div>
 
       {/* Player */}
