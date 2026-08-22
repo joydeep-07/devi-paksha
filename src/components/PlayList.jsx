@@ -89,7 +89,7 @@ const PlayList = () => {
         <div
           ref={popupRef}
           onMouseMove={handleMouseMove}
-          className="absolute bottom-full left-1/2 mb-4 w-full max-w-[580px] -translate-x-1/2 overflow-hidden rounded-2xl border border-[var(--nav-border)] shadow-2xl backdrop-blur-2xl z-[110]"
+          className="absolute bottom-full bg-gray-900/20 left-1/2 mb-4 w-full max-w-[580px] -translate-x-1/2 overflow-hidden rounded-2xl border border-[var(--nav-border)] shadow-2xl backdrop-blur-2xl z-[110]"
         >
           {/* Vertical Tracking Indicator (Extreme Right: 10px high, 3px wide) */}
           <div
