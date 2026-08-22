@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Coffee, Disc3, Music2, UsersRound } from "lucide-react";
-
-const TARGET_DATE = new Date("2026-10-16T00:00:00+05:30"); // October 16, 2026 IST
+import { getCountdown } from "../utils/countdown";
 
 const Navbar = () => {
   const [currentTime, setCurrentTime] = useState({
     timeStr: "-- : --",
     period: "am",
   });
+
   const [daysRemaining, setDaysRemaining] = useState(0);
 
   useEffect(() => {
     const updateNavbarData = () => {
       const now = new Date();
 
-      // 1. Format IST Time
+      // IST Time
       const timeFormatter = new Intl.DateTimeFormat("en-IN", {
         timeZone: "Asia/Kolkata",
         hour: "2-digit",
@@ -23,10 +23,13 @@ const Navbar = () => {
       });
 
       const formattedParts = timeFormatter.formatToParts(now);
+
       const hours =
         formattedParts.find((p) => p.type === "hour")?.value || "00";
+
       const minutes =
         formattedParts.find((p) => p.type === "minute")?.value || "00";
+
       const dayPeriod =
         formattedParts.find((p) => p.type === "dayPeriod")?.value || "am";
 
@@ -35,16 +38,12 @@ const Navbar = () => {
         period: dayPeriod.toLowerCase(),
       });
 
-      // 2. Calculate remaining days to Oct 16, 2026
-      const diffInMs = TARGET_DATE.getTime() - now.getTime();
-      const diffInDays = Math.max(
-        0,
-        Math.ceil(diffInMs / (1000 * 60 * 60 * 24)),
-      );
-      setDaysRemaining(diffInDays);
+      // Days remaining
+      setDaysRemaining(getCountdown());
     };
 
     updateNavbarData();
+
     const interval = setInterval(updateNavbarData, 1000);
 
     return () => clearInterval(interval);
@@ -82,7 +81,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Center — Online + Countdown */}
+      {/* Center — Countdown */}
       <div
         className="
           absolute left-1/2 hidden
@@ -97,21 +96,13 @@ const Navbar = () => {
           md:flex
         "
       >
-        <div className="flex items-center gap-4 text-xs font-medium text-[var(--nav-text)]">
-          {/* <div className="flex items-center gap-2">
-            <span
-              className="
-                h-2.5 w-2.5 rounded-full
-                bg-[var(--online)]
-                shadow-[0_0_10px_var(--online)]
-              "
-            />
-
-            <span className="uppercase">274 online</span>
-          </div> */}
-
-          {/* <span className="h-5 w-px bg-white/30" /> */}
-
+        <div
+          className="
+            flex items-center gap-4
+            text-xs font-medium
+            text-[var(--nav-text)]
+          "
+        >
           <span className="uppercase text-[var(--nav-text-muted)]">
             <span className="text-[var(--nav-text)]">{daysRemaining}</span> days
             until Durga Pujo
@@ -120,7 +111,12 @@ const Navbar = () => {
       </div>
 
       {/* Right — Actions */}
-      <div className="flex h-[var(--nav-height)] items-center gap-[var(--nav-gap)]">
+      <div
+        className="
+          flex h-[var(--nav-height)]
+          items-center gap-[var(--nav-gap)]
+        "
+      >
         {/* Music */}
         <div
           className="
@@ -135,7 +131,8 @@ const Navbar = () => {
         >
           <button
             className="
-              flex h-[var(--nav-button-size)] w-[var(--nav-button-size)]
+              flex h-[var(--nav-button-size)]
+              w-[var(--nav-button-size)]
               items-center justify-center
               rounded-full
               text-[var(--nav-text)]
@@ -148,7 +145,8 @@ const Navbar = () => {
 
           <button
             className="
-              flex h-[var(--nav-button-size)] w-[var(--nav-button-size)]
+              flex h-[var(--nav-button-size)]
+              w-[var(--nav-button-size)]
               items-center justify-center
               rounded-full
               text-[var(--nav-text)]
@@ -174,7 +172,8 @@ const Navbar = () => {
         >
           <button
             className="
-              flex h-[var(--nav-button-size)] w-[var(--nav-button-size)]
+              flex h-[var(--nav-button-size)]
+              w-[var(--nav-button-size)]
               items-center justify-center
               rounded-full
               text-[var(--nav-text)]
@@ -187,7 +186,8 @@ const Navbar = () => {
 
           <button
             className="
-              flex h-[var(--nav-button-size)] w-[var(--nav-button-size)]
+              flex h-[var(--nav-button-size)]
+              w-[var(--nav-button-size)]
               items-center justify-center
               rounded-full
               text-[var(--nav-text)]
