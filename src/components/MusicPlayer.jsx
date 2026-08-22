@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import PlayList from "./PlayList";
 import Dhak from "./Dhak";
+import devi from "../assets/images/devi.jpg";
 
 const MusicPlayer = ({
   currentSong,
@@ -82,10 +83,7 @@ const MusicPlayer = ({
           "
         >
           <img
-            src={
-              currentSong?.cover ||
-              "https://i.pinimg.com/736x/7d/9f/b5/7d9fb5a1eadbd0572fdcda510db537f6.jpg"
-            }
+            src={devi}
             alt={currentSong?.title || "Music"}
             className="h-full w-full object-cover"
           />

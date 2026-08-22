@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown, ListMusic, Music2 } from "lucide-react";
 import gsap from "gsap";
 import { mahalaya, pujo } from "../utils/music";
+import devi from "../assets/images/devi.jpg";
 
 const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -208,7 +209,7 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
           </div>
 
           {/* Songs */}
-          <div ref={scrollListRef} className="max-h-72 overflow-y-auto">
+          <div ref={scrollListRef} className="h-72 overflow-y-auto">
             {currentPlaylist.length > 0 ? (
               <div ref={listRef} className="flex flex-col">
                 {currentPlaylist.map((song, index) => {
@@ -251,7 +252,17 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
                             "
                           />
                         ) : (
-                          <Music2 size={18} className="text-white/40" />
+                          <img
+                            src={devi}
+                            alt={song.title}
+                            className="
+                              h-full w-full
+                              object-cover
+                              transition-transform
+                              duration-500
+                              group-hover:scale-110
+                            "
+                          />
                         )}
                       </div>
 
@@ -284,7 +295,7 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
                 })}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-10">
+              <div className="flex flex-col h-72 items-center justify-center py-10">
                 <Music2
                   size={22}
                   strokeWidth={1.5}

@@ -18,7 +18,12 @@ import night from "../assets/images/night.png";
 const Home = () => {
   const audioRef = useRef(null);
 
+  // Which playlist the user is currently browsing
   const [playlist, setPlaylist] = useState("pujo");
+
+  // Which song is actually playing
+  const [playingSong, setPlayingSong] = useState(pujo[0]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -28,21 +33,23 @@ const Home = () => {
 
   const currentPlaylist = playlist === "pujo" ? pujo : mahalaya;
 
-  const currentSong = currentPlaylist[currentIndex];
+  /*
+   * IMPORTANT:
+   * playlist = playlist being viewed
+   * playingSong = song currently being played
+   *
+   * They are intentionally separate.
+   */
 
   // --------------------------------
-  // Load current song
+  // Load ONLY when playing song changes
   // --------------------------------
   useEffect(() => {
     const audio = audioRef.current;
 
-    if (!audio || !currentSong) {
-      setCurrentTime(0);
-      setDuration(0);
-      return;
-    }
+    if (!audio || !playingSong) return;
 
-    audio.src = currentSong.src;
+    audio.src = playingSong.src;
     audio.load();
 
     setCurrentTime(0);
@@ -54,7 +61,7 @@ const Home = () => {
         setIsPlaying(false);
       });
     }
-  }, [currentSong]);
+  }, [playingSong]);
 
   // --------------------------------
   // Play / Pause
@@ -62,7 +69,7 @@ const Home = () => {
   const handlePlay = () => {
     const audio = audioRef.current;
 
-    if (!audio || !currentSong) return;
+    if (!audio || !playingSong) return;
 
     if (isPlaying) {
       audio.pause();
@@ -85,14 +92,13 @@ const Home = () => {
   const handleNext = () => {
     if (!currentPlaylist.length) return;
 
-    setCurrentIndex((prev) => {
-      if (prev >= currentPlaylist.length - 1) {
-        return 0;
-      }
+    const nextIndex =
+      currentIndex >= currentPlaylist.length - 1 ? 0 : currentIndex + 1;
 
-      return prev + 1;
-    });
+    const nextSong = currentPlaylist[nextIndex];
 
+    setCurrentIndex(nextIndex);
+    setPlayingSong(nextSong);
     setIsPlaying(true);
   };
 
@@ -102,19 +108,18 @@ const Home = () => {
   const handlePrevious = () => {
     if (!currentPlaylist.length) return;
 
-    setCurrentIndex((prev) => {
-      if (prev <= 0) {
-        return currentPlaylist.length - 1;
-      }
+    const previousIndex =
+      currentIndex <= 0 ? currentPlaylist.length - 1 : currentIndex - 1;
 
-      return prev - 1;
-    });
+    const previousSong = currentPlaylist[previousIndex];
 
+    setCurrentIndex(previousIndex);
+    setPlayingSong(previousSong);
     setIsPlaying(true);
   };
 
   // --------------------------------
-  // Select song
+  // Select song from playlist
   // --------------------------------
   const handleSelectSong = (song) => {
     const index = currentPlaylist.findIndex((item) => item.src === song.src);
@@ -122,6 +127,7 @@ const Home = () => {
     if (index === -1) return;
 
     setCurrentIndex(index);
+    setPlayingSong(song);
     setIsPlaying(true);
   };
 
@@ -133,32 +139,27 @@ const Home = () => {
   };
 
   // --------------------------------
-  // Playlist change
+  // Change playlist
   // --------------------------------
   const handlePlaylistChange = (newPlaylist) => {
-    const audio = audioRef.current;
-
-    if (audio) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-
+    /*
+     * DO NOT touch the audio here.
+     *
+     * This only changes which playlist is displayed.
+     * The currently playing song continues.
+     */
     setPlaylist(newPlaylist);
-    setCurrentIndex(0);
-    setCurrentTime(0);
-    setDuration(0);
-    setIsPlaying(false);
   };
 
   // --------------------------------
-  // Audio metadata loaded
+  // Audio metadata
   // --------------------------------
   const handleLoadedMetadata = (e) => {
     setDuration(e.currentTarget.duration);
   };
 
   // --------------------------------
-  // Audio time update
+  // Audio progress
   // --------------------------------
   const handleTimeUpdate = (e) => {
     setCurrentTime(e.currentTarget.currentTime);
@@ -268,7 +269,7 @@ const Home = () => {
 
       {/* Music Player */}
       <MusicPlayer
-        currentSong={currentSong}
+        currentSong={playingSong}
         isPlaying={isPlaying}
         currentTime={currentTime}
         duration={duration}
