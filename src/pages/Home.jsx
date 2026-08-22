@@ -18,6 +18,9 @@ import night from "../assets/images/night.png";
 const Home = () => {
   const audioRef = useRef(null);
 
+  // Track background image loading state
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   // Which playlist the user is currently browsing
   const [playlist, setPlaylist] = useState("pujo");
 
@@ -32,14 +35,6 @@ const Home = () => {
   const [duration, setDuration] = useState(0);
 
   const currentPlaylist = playlist === "pujo" ? pujo : mahalaya;
-
-  /*
-   * IMPORTANT:
-   * playlist = playlist being viewed
-   * playingSong = song currently being played
-   *
-   * They are intentionally separate.
-   */
 
   // --------------------------------
   // Load ONLY when playing song changes
@@ -142,12 +137,6 @@ const Home = () => {
   // Change playlist
   // --------------------------------
   const handlePlaylistChange = (newPlaylist) => {
-    /*
-     * DO NOT touch the audio here.
-     *
-     * This only changes which playlist is displayed.
-     * The currently playing song continues.
-     */
     setPlaylist(newPlaylist);
   };
 
@@ -183,33 +172,6 @@ const Home = () => {
   // Background image
   // --------------------------------
   const { mobileImage, desktopImage } = useMemo(() => {
-    const hour = getISTHour();
-
-    // 4 AM - 6 AM
-    // if (hour >= 4 && hour < 6) {
-    //   return {
-    //     mobileImage: morningTall,
-    //     desktopImage: morning,
-    //   };
-    // }
-
-    // 6 AM - 4 PM
-    // if (hour >= 6 && hour < 16) {
-    //   return {
-    //     mobileImage: dayTall,
-    //     desktopImage: day,
-    //   };
-    // }
-
-    // 4 PM - 8 PM
-    // if (hour >= 16 && hour < 20) {
-    //   return {
-    //     mobileImage: eveningTall,
-    //     desktopImage: evening,
-    //   };
-    // }
-
-    // 8 PM - 4 AM
     return {
       mobileImage: nightTall,
       desktopImage: night,
@@ -217,48 +179,61 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative h-screen w-full overflow-hidden bg-slate-900">
       <Navbar />
+
+      {/* Skeleton Screen (visible until background image loads) */}
+      {!isImageLoaded && (
+        <div className="absolute inset-0 z-0 bg-slate-800 animate-pulse flex flex-col justify-center items-center">
+          <div className="w-1/2 h-16 bg-slate-700/50 rounded-lg mb-4"></div>
+          <div className="w-1/4 h-4 bg-slate-700/50 rounded-lg"></div>
+        </div>
+      )}
 
       {/* Title */}
       <h1
         className="
-    absolute
-    top-[100px]
-    left-1/2
-    z-10
-    -translate-x-1/2
-    whitespace-nowrap
-    text-6xl
-    font-light
-    text-amber-300
-    md:text-7xl
-    lg:text-[130px]
-    font-bengali
-  "
+          absolute
+          top-[100px]
+          left-1/2
+          z-10
+          -translate-x-1/2
+          whitespace-nowrap
+          text-6xl
+          font-light
+          text-amber-300
+          md:text-7xl
+          lg:text-[130px]
+          font-bengali
+        "
       >
         দুগ্গা এলো
       </h1>
 
-      <p className=" absolute top-[170px] font-medium left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-[10px] font-light text-white/70 uppercase md:hidden ">
+      <p className="absolute top-[170px] font-medium left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-[10px] font-light text-white/70 uppercase md:hidden">
         {getCountdown()} days Remaining
       </p>
+
       {/* Background */}
       <picture>
         <source media="(max-width: 767px)" srcSet={mobileImage} />
 
         <img
           src={desktopImage}
-          loading="lazy"
+          loading="eager"
+          onLoad={() => setIsImageLoaded(true)}
           alt="dugga dugga"
-          className="
+          className={`
             h-full
             w-full
             object-cover
             object-left
             contrast-97
             lg:object-center
-          "
+            transition-opacity
+            duration-500
+            ${isImageLoaded ? "opacity-100" : "opacity-0"}
+          `}
         />
       </picture>
 
