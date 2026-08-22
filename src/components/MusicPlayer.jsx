@@ -43,6 +43,10 @@ const MusicPlayer = ({
   const progress =
     duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0;
 
+  // Same cover logic as the playlist:
+  // use song cover if available, otherwise use devi.jpg
+  const currentCover = currentSong?.cover || devi;
+
   return (
     <div className="fixed bottom-2 left-1/2 z-[100] w-full max-w-[620px] -translate-x-1/2 px-2 sm:bottom-4 sm:px-3">
       {/* Top Pills */}
@@ -77,9 +81,10 @@ const MusicPlayer = ({
           "
         >
           <img
-            src={currentSong?.cover || devi}
+            src={currentCover}
             alt={currentSong?.title || "Music"}
             className="h-full w-full object-cover"
+            loading="lazy"
           />
         </div>
 
