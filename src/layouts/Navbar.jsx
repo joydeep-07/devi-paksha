@@ -105,7 +105,7 @@ const Navbar = () => {
         >
           <span className="uppercase text-[var(--nav-text-muted)]">
             <span className="text-[var(--nav-text)]">{daysRemaining}</span> days
-            until Durga Pujo
+            Remaining
           </span>
         </div>
       </div>

@@ -241,7 +241,7 @@ const Home = () => {
       </h1>
 
       <p className=" absolute top-[170px] font-medium left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-[10px] font-light text-white/70 uppercase md:hidden ">
-        {getCountdown()} days until Durga Pujo
+        {getCountdown()} days Remaining
       </p>
       {/* Background */}
       <picture>
