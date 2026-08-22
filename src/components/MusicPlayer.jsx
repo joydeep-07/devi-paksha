@@ -44,7 +44,7 @@ const MusicPlayer = ({
     duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0;
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-[100] w-full max-w-[620px] -translate-x-1/2 px-3">
+    <div className="fixed bottom-2 left-1/2 z-[100] w-full max-w-[620px] -translate-x-1/2 px-2 sm:bottom-4 sm:px-3">
       {/* Top Pills */}
       <div className="mb-2 flex items-center justify-center gap-2">
         <PlayList
@@ -57,168 +57,133 @@ const MusicPlayer = ({
         <Dhak />
       </div>
 
-      {/* Player */}
+      {/* Player Card */}
       <div
         className="
-          flex h-30 w-full items-center gap-4
-          rounded-xl
+          flex w-full items-center gap-3 rounded-sm md:rounded-lg
           border border-[var(--nav-border)]
-          bg-transparent
-          px-4 py-4
-          shadow-[var(--nav-shadow)]
-          backdrop-blur-2xl
-          sm:px-5
+          bg-black/40 backdrop-blur-2xl
+          p-2.5 shadow-[var(--nav-shadow)]
+          sm:gap-4 sm:p-4
         "
       >
-        {/* Cover */}
+        {/* Cover Art */}
         <div
           className="
-            h-[82px] w-[82px]
-            shrink-0
-            overflow-hidden
-            rounded-[18px]
-            border border-[var(--nav-border)]
-            bg-transparent
-            shadow-lg
+            h-14 w-14 shrink-0 overflow-hidden
+            rounded-lg border border-[var(--nav-border)]
+            bg-transparent shadow-md
+            sm:h-[72px] sm:w-[72px] sm:rounded-[18px]
           "
         >
           <img
-            src={devi}
+            src={currentSong?.cover || devi}
             alt={currentSong?.title || "Music"}
             className="h-full w-full object-cover"
           />
         </div>
 
-        {/* Song Information */}
-        <div className="min-w-0 flex-1 self-stretch py-1">
-          <div className="truncate text-[16px] font-bold text-[var(--nav-text)]">
+        {/* Song Information & Progress Bar */}
+        <div className="flex min-w-0 flex-1 flex-col justify-center">
+          <div className="truncate text-sm font-bold text-[var(--nav-text)] sm:text-base">
             {currentSong?.title || "Dugga Elo"}
           </div>
 
-          <div className="mt-1 truncate text-[13px] text-[var(--nav-text-subtle)]">
+          <div className="truncate text-xs text-[var(--nav-text-subtle)] sm:text-sm">
             {currentSong?.artist || "Monali Thakur"}
           </div>
 
           {/* Progress */}
-          <div className="mt-3">
-            <div className="h-[3px] w-full overflow-hidden rounded-full bg-white/20">
+          <div className="mt-2 w-full">
+            <div className="h-[2px] w-full overflow-hidden rounded-full bg-white/20 sm:h-[3px]">
               <div
-                className="h-full rounded-full bg-white/50 transition-[width] duration-100"
+                className="h-full rounded-full bg-white/70 transition-[width] duration-100"
                 style={{
                   width: `${progress}%`,
                 }}
               />
             </div>
 
-            {/* Time */}
-            <div className="mt-2 flex justify-between text-[11px] font-medium text-[var(--nav-text-subtle)]">
+            {/* Time Indicators */}
+            <div className="mt-1 flex justify-between text-[10px] font-medium text-[var(--nav-text-subtle)] sm:text-[11px]">
               <span>{formatTime(currentTime)}</span>
-
               <span>{formatTime(duration)}</span>
             </div>
           </div>
         </div>
 
-        {/* Desktop Controls */}
-        <div className="hidden shrink-0 items-center gap-5 sm:flex">
-          {/* Shuffle */}
-          <button
-            className="
-              text-[var(--nav-text-muted)]
-              transition
-              hover:text-[var(--nav-text)]
-            "
+        {/* Desktop Controls (Tablet/Desktop) */}
+        <div className="hidden shrink-0 items-center gap-4 sm:flex">
+          {/* <button
+            aria-label="Shuffle"
+            className="text-[var(--nav-text-muted)] transition hover:text-[var(--nav-text)]"
           >
-            <Shuffle size={19} strokeWidth={1.8} />
-          </button>
+            <Shuffle size={18} strokeWidth={1.8} />
+          </button> */}
 
-          {/* Previous */}
           <button
             onClick={onPrevious}
-            className="
-              text-[var(--nav-text-muted)]
-              transition
-              hover:text-[var(--nav-text)]
-              active:scale-90
-            "
+            aria-label="Previous"
+            className="text-[var(--nav-text-muted)] transition hover:text-[var(--nav-text)] active:scale-90"
           >
             <SkipBack size={20} fill="currentColor" />
           </button>
 
-          {/* Play / Pause */}
           <button
             onClick={onPlay}
-            className="
-              flex h-12 w-12
-              items-center justify-center
-              rounded-2xl
-              text-[var(--nav-text)]
-              transition
-              hover:scale-105
-              active:scale-95
-            "
+            aria-label={isPlaying ? "Pause" : "Play"}
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-[var(--nav-text)] transition hover:scale-105 active:scale-95"
           >
             {isPlaying ? (
-              <Pause size={21} fill="currentColor" />
+              <Pause size={20} fill="currentColor" />
             ) : (
-              <Play size={21} fill="currentColor" />
+              <Play size={20} fill="currentColor" className="ml-0.5" />
             )}
           </button>
 
-          {/* Next */}
           <button
             onClick={onNext}
-            className="
-              text-[var(--nav-text-muted)]
-              transition
-              hover:text-[var(--nav-text)]
-              active:scale-90
-            "
+            aria-label="Next"
+            className="text-[var(--nav-text-muted)] transition hover:text-[var(--nav-text)] active:scale-90"
           >
             <SkipForward size={20} fill="currentColor" />
           </button>
 
-          {/* Repeat */}
-          <button
-            className="
-              text-[var(--nav-text-muted)]
-              transition
-              hover:text-[var(--nav-text)]
-            "
+          {/* <button
+            aria-label="Repeat"
+            className="text-[var(--nav-text-muted)] transition hover:text-[var(--nav-text)]"
           >
-            <Repeat2 size={20} strokeWidth={1.8} />
-          </button>
+            <Repeat2 size={19} strokeWidth={1.8} />
+          </button> */}
         </div>
 
         {/* Mobile Controls */}
-        <div className="flex items-center gap-2 sm:hidden">
-          {/* Previous */}
-          <button onClick={onPrevious} className="text-[var(--nav-text-muted)]">
+        <div className="flex shrink-0 items-center gap-1 sm:hidden">
+          <button
+            onClick={onPrevious}
+            aria-label="Previous"
+            className="p-2 text-[var(--nav-text-muted)] active:scale-90"
+          >
             <SkipBack size={18} fill="currentColor" />
           </button>
 
-          {/* Play / Pause */}
           <button
             onClick={onPlay}
-            className="
-              flex h-11 w-11
-              shrink-0
-              items-center justify-center
-              text-[var(--nav-text)]
-              transition
-              hover:scale-105
-              active:scale-95
-            "
+            aria-label={isPlaying ? "Pause" : "Play"}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-[var(--nav-text)] active:scale-90"
           >
             {isPlaying ? (
-              <Pause size={19} fill="currentColor" />
+              <Pause size={18} fill="currentColor" />
             ) : (
-              <Play size={19} fill="currentColor" />
+              <Play size={18} fill="currentColor" className="ml-0.5" />
             )}
           </button>
 
-          {/* Next */}
-          <button onClick={onNext} className="text-[var(--nav-text-muted)]">
+          <button
+            onClick={onNext}
+            aria-label="Next"
+            className="p-2 text-[var(--nav-text-muted)] active:scale-90"
+          >
             <SkipForward size={18} fill="currentColor" />
           </button>
         </div>
