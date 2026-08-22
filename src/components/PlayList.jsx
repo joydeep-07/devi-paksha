@@ -11,55 +11,91 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
   const listRef = useRef(null);
   const trackerRef = useRef(null);
   const scrollListRef = useRef(null);
+  const triggerRef = useRef(null);
 
   const currentPlaylist = playlist === "pujo" ? pujo : mahalaya;
 
+  // Smooth close function using GSAP
+  const handleClose = () => {
+    if (!popupRef.current) {
+      setIsOpen(false);
+      return;
+    }
+
+    gsap.killTweensOf(popupRef.current);
+    gsap.to(popupRef.current, {
+      opacity: 0,
+      y: 8,
+      scale: 0.98,
+      duration: 0.18,
+      ease: "power2.in",
+      onComplete: () => setIsOpen(false),
+    });
+  };
+
+  // Close on outside click
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClickOutside = (e) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(e.target) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(e.target)
+      ) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  // Fast popup open animation (no lag)
   useEffect(() => {
     if (isOpen && popupRef.current) {
+      gsap.killTweensOf(popupRef.current);
       gsap.fromTo(
         popupRef.current,
-        {
-          opacity: 0,
-          y: 15,
-          scale: 0.98,
-        },
+        { opacity: 0, y: 8, scale: 0.98 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.4,
-          ease: "power3.out",
+          duration: 0.22,
+          ease: "power2.out",
         },
       );
     }
   }, [isOpen]);
 
+  // Very light / almost instant list fade
   useEffect(() => {
     if (isOpen && listRef.current) {
-      // Clear any running tweens to prevent stuttering
       gsap.killTweensOf(listRef.current.children);
-
       gsap.fromTo(
         listRef.current.children,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: "power2.out" },
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.18,
+          stagger: 0.012,
+          ease: "power1.out",
+        },
       );
     }
-  }, [isOpen]);
+  }, [isOpen, currentPlaylist]);
 
   const handleMouseMove = (e) => {
-    if (!scrollListRef.current || !trackerRef.current || !popupRef.current) {
+    if (!scrollListRef.current || !trackerRef.current || !popupRef.current)
       return;
-    }
 
     const scrollRect = scrollListRef.current.getBoundingClientRect();
-
     const popupRect = popupRef.current.getBoundingClientRect();
-
     const trackerHeight = 10;
 
     const relativeYToScroll = e.clientY - scrollRect.top;
-
     const clampedYToScroll = Math.max(
       0,
       Math.min(
@@ -72,21 +108,30 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
 
     gsap.to(trackerRef.current, {
       y: finalY,
-      duration: 0.15,
+      duration: 0.1,
       ease: "power2.out",
     });
   };
 
   const handleSongSelect = (song) => {
     onSelectSong(song);
-    setIsOpen(false);
+    handleClose();
+  };
+
+  const toggleOpen = () => {
+    if (isOpen) {
+      handleClose();
+    } else {
+      setIsOpen(true);
+    }
   };
 
   return (
     <>
       {/* Trigger */}
       <button
-        onClick={() => setIsOpen((prev) => !prev)}
+        ref={triggerRef}
+        onClick={toggleOpen}
         className="
           flex h-9 items-center gap-2
           rounded-[var(--nav-radius)]
@@ -103,14 +148,10 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
         "
       >
         <ListMusic size={15} strokeWidth={1.8} />
-
         <span>{playlist === "pujo" ? "PUJA RADIO" : "MAHALAYA"}</span>
-
         <ChevronDown
           size={14}
-          className={`transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -135,7 +176,7 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
           <div
             ref={trackerRef}
             className="
-            md:block hidden
+              md:block hidden
               pointer-events-none
               absolute right-0 top-0 z-20
               h-[25px] w-[2px]
@@ -152,12 +193,7 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
                 <p className="text-xs font-semibold tracking-[0.2em] text-white/40">
                   PLAYLIST
                 </p>
-
-                {/* <p className="mt-1 text-[10px] uppercase font-medium text-white">
-                  {playlist === "pujo" ? "Puja Radio" : "Mahalaya"}
-                </p> */}
               </div>
-
               <Music2 size={17} strokeWidth={1.5} className="text-amber-300" />
             </div>
 
@@ -166,12 +202,9 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
               <button
                 onClick={() => setPlaylist("pujo")}
                 className={`
-                  flex flex-1 items-center
-                  justify-center gap-2
-                
-                  text-[10px] font-semibold
-                  tracking-wider transition
-                  ${playlist === "pujo" ? " text-amber-300" : "text-white/40"}
+                  flex flex-1 items-center justify-center gap-2
+                  text-[10px] font-semibold tracking-wider transition
+                  ${playlist === "pujo" ? "text-amber-300" : "text-white/40"}
                 `}
               >
                 <ListMusic size={13} />
@@ -181,12 +214,10 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
               <button
                 onClick={() => setPlaylist("mahalaya")}
                 className={`
-                  flex flex-1 items-center
-                  justify-center gap-2
+                  flex flex-1 items-center justify-center gap-2
                   rounded-lg py-2
-                  text-[10px] font-semibold
-                  tracking-wider transition
-                 ${playlist === "pujo" ? " text-white/40" : "text-amber-300"}
+                  text-[10px] font-semibold tracking-wider transition
+                  ${playlist === "pujo" ? "text-white/40" : "text-amber-300"}
                 `}
               >
                 <Music2 size={13} />
@@ -207,59 +238,32 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
                       key={index}
                       onClick={() => handleSongSelect(song)}
                       className={`
-                        group flex w-full
-                        items-center gap-4
-                        px-4 py-3
-                        text-left
-                        transition
+                        group flex w-full items-center gap-4
+                        px-4 py-3 text-left transition
                         ${isCurrent ? "bg-white/10" : ""}
                       `}
                     >
                       {/* Cover */}
-                      <div
-                        className="
-                          flex h-12 w-12
-                          shrink-0
-                          items-center justify-center
-                          overflow-hidden
-                          rounded-lg
-                          bg-white/5
-                        "
-                      >
-                        {song.cover ? (
-                          <img
-                            src={song.cover}
-                            alt={song.title}
-                            className="
-                              h-full w-full
-                              object-cover
-                              transition-transform
-                              duration-500
-                            "
-                          />
-                        ) : (
-                          <img
-                            src={devi}
-                            alt={song.title}
-                            className="
-                              h-full w-full
-                              object-cover
-                              transition-transform
-                              duration-500
-                             
-                            "
-                          />
-                        )}
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/5">
+                        <img
+                          src={song.cover || devi}
+                          alt={song.title}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
                       </div>
 
                       {/* Details */}
                       <div className="min-w-0 flex-1">
                         <p
-                          className={` truncate text-sm font-medium transition-colors duration-200  ${isCurrent ? "text-amber-300" : "text-white/90 group-hover:text-amber-200"} `}
+                          className={`truncate text-sm font-medium transition-colors duration-200 ${
+                            isCurrent
+                              ? "text-amber-300"
+                              : "text-white/90 group-hover:text-amber-200"
+                          }`}
                         >
                           {song.title}
                         </p>
-
                         <p className="mt-1 truncate text-xs text-white/40">
                           {song.artist}
                         </p>
@@ -278,13 +282,12 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
                 })}
               </div>
             ) : (
-              <div className="flex flex-col h-72 items-center justify-center py-10">
+              <div className="flex h-72 flex-col items-center justify-center py-10">
                 <Music2
                   size={22}
                   strokeWidth={1.5}
                   className="mb-3 text-white/20"
                 />
-
                 <p className="text-xs text-white/40">
                   No Mahalaya tracks added yet
                 </p>
