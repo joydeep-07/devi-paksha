@@ -206,10 +206,7 @@ const MusicPlayer = ({
               flex h-11 w-11
               shrink-0
               items-center justify-center
-              rounded-2xl
-              bg-[var(--nav-text)]
-              text-[var(--nav-bg)]
-              shadow-lg
+              text-[var(--nav-text)]
               transition
               hover:scale-105
               active:scale-95
