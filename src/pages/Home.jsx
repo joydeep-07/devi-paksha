@@ -253,6 +253,7 @@ const Home = () => {
             w-full
             object-cover
             object-left
+            contrast-97
             lg:object-center
           "
         />
