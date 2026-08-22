@@ -34,18 +34,18 @@ const PlayList = ({ playlist, setPlaylist, onSelectSong, currentSong }) => {
     }
   }, [isOpen]);
 
-useEffect(() => {
-  if (isOpen && listRef.current) {
-    // Clear any running tweens to prevent stuttering
-    gsap.killTweensOf(listRef.current.children);
+  useEffect(() => {
+    if (isOpen && listRef.current) {
+      // Clear any running tweens to prevent stuttering
+      gsap.killTweensOf(listRef.current.children);
 
-    gsap.fromTo(
-      listRef.current.children,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: "power2.out" }
-    );
-  }
-}, [isOpen]);
+      gsap.fromTo(
+        listRef.current.children,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: "power2.out" },
+      );
+    }
+  }, [isOpen]);
 
   const handleMouseMove = (e) => {
     if (!scrollListRef.current || !trackerRef.current || !popupRef.current) {
@@ -135,6 +135,7 @@ useEffect(() => {
           <div
             ref={trackerRef}
             className="
+            md:block hidden
               pointer-events-none
               absolute right-0 top-0 z-20
               h-[25px] w-[2px]
@@ -145,16 +146,16 @@ useEffect(() => {
           />
 
           {/* Header */}
-          <div className="border-b border-white/10 p-4">
+          <div className="px-4 pt-4">
             <div className="mb-3 flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-semibold tracking-[0.2em] text-white/40">
+                <p className="text-xs font-semibold tracking-[0.2em] text-white/40">
                   PLAYLIST
                 </p>
 
-                <p className="mt-1 text-sm font-medium text-white">
+                {/* <p className="mt-1 text-[10px] uppercase font-medium text-white">
                   {playlist === "pujo" ? "Puja Radio" : "Mahalaya"}
-                </p>
+                </p> */}
               </div>
 
               <Music2 size={17} strokeWidth={1.5} className="text-amber-300" />
@@ -211,7 +212,7 @@ useEffect(() => {
                         px-4 py-3
                         text-left
                         transition
-                        ${isCurrent ? "bg-white/10" : "hover:bg-white/10"}
+                        ${isCurrent ? "bg-white/10" : ""}
                       `}
                     >
                       {/* Cover */}
@@ -254,10 +255,7 @@ useEffect(() => {
                       {/* Details */}
                       <div className="min-w-0 flex-1">
                         <p
-                          className={`
-                            truncate text-sm font-medium
-                            ${isCurrent ? "text-amber-300" : "text-white/90"}
-                          `}
+                          className={` truncate text-sm font-medium transition-colors duration-200  ${isCurrent ? "text-amber-300" : "text-white/90 group-hover:text-amber-200"} `}
                         >
                           {song.title}
                         </p>
